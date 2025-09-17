@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Recherche Appartement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    /* Custom CSS for column widths and borders */
+    .wider-cols th:nth-child(3),
+    .wider-cols th:nth-child(4) {
+        min-width: 250px;
+    }
+    .wider-cols td:nth-child(3),
+    .wider-cols td:nth-child(4) {
+        min-width: 250px;
+        overflow-wrap: break-word;
+    }
+    .wider-cols th,
+    .wider-cols td {
+        border: 1px solid #e5e7eb;
+    }
+    .wider-cols table {
+        border-collapse: collapse;
+    }
+    /* Set width for columns 5 and 7 to correspond to column 1 */
+    .wider-cols th:nth-child(5),
+    .wider-cols td:nth-child(5),
+    .wider-cols th:nth-child(7),
+    .wider-cols td:nth-child(7) {
+        min-width: 150px;
+    }
+    /* Narrow the 6th column by 30% */
+    .wider-cols th:nth-child(6),
+    .wider-cols td:nth-child(6) {
+        min-width: 70px;
+    }
+    /* Right-align numeric columns for unit alignment */
+    .wider-cols .numeric {
+        text-align: right;
+    }
+    /* The rest of the cells will take up the remaining space */
+    .wider-cols th,
+    .wider-cols td {
+      width: auto;
+    }
+    /* Custom styling for the details/summary element */
+    details[open] summary .triangle {
+        transform: rotate(90deg);
+    }
+    .triangle {
+        transition: transform 0.2s ease-in-out;
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+    summary {
+        cursor: pointer;
+        list-style: none; /* Hide default triangle */
+    }
+    summary::-webkit-details-marker {
+        display: none; /* Hide default triangle for webkit browsers */
+    }
+    /* Custom link color: subtle grayish-blue */
+    a {
+        color: #a5b4fc; /* Very soft blue-gray */
+        text-decoration: none;
+    }
+    a:hover {
+        color: #bfdbfe; /* Lighter on hover */
+    }
+</style>
+
+</head>
+<body class="bg-black text-gray-200 p-8 flex items-center justify-center min-h-screen">
+    <main class="container mx-auto max-w-4xl bg-gray-900 rounded-lg shadow-xl p-8 md:p-12 space-y-8">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 leading-tight mb-2">Recherche d'appartement</h1>
+            <p class="text-sm text-gray-400 mt-0">
+                Cette page est un aide-mémoire pour les personnes qui ont participé à l'atelier. Les informations qui y figurent le sont uniquement à titre indicatif et n'engagent pas l'EVAM. Si des informations contenues dans cette page sont différentes de ce qui figure dans le <a href="https://www.evam.ch/app/uploads/2022/01/GUIDE-ASSISTANCE.pdf" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">guide d'assistance</a> (GA), c'est le guide d'assistance qui fait foi.
+            </p>
+        </header>
+
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Lexique
+            </summary>
+            
+            <h3 class="text-xl font-bold text-white">Bail</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Le bail est le contrat de location. Le contrat contient des informations sur l'appartement et le loyer. Il contient aussi des informations sur les règles de résiliation du bail. En général, il faut donner un préavis de 3 mois pour quitter l'appartement. Ce préavis doit être donné avant la fin du mois. Parfois il est possible de résilier le bail seulement à la fin du contrat.
+            </p>
+            
+            <h3 class="text-xl font-bold text-white">Buanderie</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                La buanderie est un local avec une machine à laver le linge qui se trouve dans les immeubles. L'usage de la machine est partagé par les locataires. C'est un service payant. Les prix varient en général entre CHF 1 et 3 par lavage.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Cave</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                La cave est un local de stockage qui se trouve au sous-sol. Chaque appartement a en général sa propre cave. Elle est mise à disposition avec l'appartement, sans coûts supplémentaires.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Charges</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Les charges sont un montant versé chaque mois (sur la même facture que la facture du loyer) au propriétaire ou à l'agence pour payer l'eau chaude et le chauffage. Attention : une fois par année, on peut vous demander que vous payiez un complément si vous avez consommé beaucoup d'eau chaude ou de chauffage.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Garant</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Un garant (ne pas confondre avec garantie) est une personne qui accepte d’être légalement responsable de payer le loyer si vous ne le payez pas vous-même. Cette personne doit montrer qu’elle a les moyens financiers de payer. Ce n'est pas toujours obligatoire d'avoir un garant, mais cela peut être un avantage.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Garantie</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Les agences immobilières et les propriétaires demandent normalement de déposer une garantie (ne pas confondre avec garant) qui représente trois mois de loyer, sur un compte bancaire bloqué. Si vous payez tous vos loyers et ne causez pas de dégâts, vous récupérez cet argent quand vous quittez l'appartement. Comme alternative à la garantie de loyer, il est possible d'utiliser une société de cautionnement (voir rubrique qui porte ce nom).
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Loyer</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Le loyer est payé une fois par mois. Sur la facture du loyer il y a en général deux choses distinctes qui sont facturées : le loyer proprement dit (ce que vous payez pour occuper l'appartement) et les charges (qui servent à payer l'eau chaude et le chauffage). C'est la seule facture que vous payez à l'agence ou au propriétaire. Les autres factures liées au logement (électricité, internet) vous parviennent directement des entreprises qui fournissent ce service. Les services comme le nettoyage ou les réparations dans le bâtiment sont inclus dans le loyer.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Pièces</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                Certaines parties de l'appartement comptent comme des pièces et d'autres non. Les chambres et le salon sont des pièces. La cuisine et les salles de bain ne sont pas des pièces.
+            </p>
+            
+            <h3 class="text-xl font-bold text-white">Registre des poursuites</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                C'est une base de données gérée par l'office des poursuites qui répertorie les personnes qui ont des dettes. Pour pouvoir louer un appartement il faut obtenir une attestation appelée "extrait du registre des poursuites" qui indique que vous n'avez pas de dettes. Ce document coute CHF 18. L'EVAM ne rembourse pas cette dépense.
+            </p>
+
+            <h3 class="text-xl font-bold text-white">Régie</h3>
+            <p class="text-lg text-gray-300 leading-relaxed -mt-2">
+                La régie est un autre mot pour une agence immobilière.
+            </p>
+        </details>
+
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Couts et financement par l’EVAM
+            </summary>
+
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Si vous trouvez un logement vous-même et que vous êtes assistés par l’EVAM, l'EVAM vous versera de l'argent chaque mois pour payer le loyer (et une partie des autres frais liés au logement). Le montant versé par l'EVAM a une limite maximale qui dépend de plusieurs facteurs, notamment la zone géographique de l'appartement, le nombre de personnes et leur âge, et si vous êtes en colocation. Si votre loyer est inférieur à cette limite, vous recevrez le montant de votre loyer. Si votre loyer dépasse la limite, vous recevrez uniquement le montant maximal.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed">L’EVAM vous verse également:</p>
+            <ul class="list-disc list-outside space-y-2 text-lg text-gray-300 pl-6">
+                <li>CHF 200 par adulte à titre de frais de déménagement (<a href="https://www.evam.ch/app/uploads/2022/01/GUIDE-ASSISTANCE.pdf#page=38" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">GA 110.3</a>)</li>
+                <li>CHF 500 par personne pour l’achat de meubles (<a href="https://www.evam.ch/app/uploads/2022/01/GUIDE-ASSISTANCE.pdf#page=38" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">GA 110.4</a>)</li>
+            </ul>
+            <p class="text-lg text-gray-300 leading-relaxed">Ces sommes (CHF 200 & CHF 500) ne sont versées qu’une seule fois. Si vous déménager une nouvelle fois par la suite, vous ne recevrez pas à nouveau ces montants.<br>Vous pouvez également garder le matelas et la vaisselle qui vous ont été remis à votre arrivée.</p>
+
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Ci-dessous, vous pouvez saisir les paramètres qui correspondent à votre situation. Le tableau vous montre une estimation des couts et des montant que l’EVAM vous verse. Si vous êtes en colocation, le montant est calculé par personne. Si non, le montant est calculé pour la totalité des parsonnes qui habiteront l'appartement. Cette estimation est seulement informative et peut être différente de la réalité.
+            </p>
+
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="num-people" class="block text-sm font-medium text-gray-400">Nombre de personnes</label>
+                        <input type="number" id="num-people" value="1" min="1" max="8" class="mt-1 block w-full rounded-md bg-gray-700 text-white border-transparent focus:border-blue-500 focus:bg-gray-600 focus:ring-0 p-2">
+                    </div>
+                    <div>
+                        <label for="geographic-zone" class="block text-sm font-medium text-gray-400">Zone géographique</label>
+                        <select id="geographic-zone" class="mt-1 block w-full rounded-md bg-gray-700 text-white border-transparent focus:border-blue-500 focus:bg-gray-600 focus:ring-0 p-2">
+                            <option value="Nyon & Morges">Nyon & Morges</option>
+                            <option value="Aigle & Broye">Aigle & Broye</option>
+                            <option value="autres zones" selected>Autres zones</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="colocation" class="block text-sm font-medium text-gray-400">Colocation</label>
+                        <select id="colocation" class="mt-1 block w-full rounded-md bg-gray-700 text-white border-transparent focus:border-blue-500 focus:bg-gray-600 focus:ring-0 p-2">
+                            <option value="non" selected>Non</option>
+                            <option value="oui">Oui</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="age-range" class="block text-sm font-medium text-gray-400">Âge du signataire du bail</label>
+                        <select id="age-range" class="mt-1 block w-full rounded-md bg-gray-700 text-white border-transparent focus:border-blue-500 focus:bg-gray-600 focus:ring-0 p-2">
+                            <option value="26+" selected>26+</option>
+                            <option value="25-">25-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table class="wider-cols w-full text-left text-sm text-gray-400">
+                    <thead class="text-xs text-gray-300 uppercase bg-gray-800">
+                        <tr class="text-center">
+                            <th scope="col" class="px-6 py-3">Fréquence du paiement que vous recevez de l'EVAM</th>
+                            <th scope="col" class="px-6 py-3">Montant que vous recevez de l'EVAM</th>
+                            <th scope="col" class="px-6 py-3">Motif</th>
+                            <th scope="col" class="px-6 py-3">Remarque</th>
+                            <th scope="col" class="px-6 py-3">Estimation de cout mensuel</th>
+                            <th scope="col" class="px-6 py-3">Fréquence de la facture/dépense</th>
+                            <th scope="col" class="px-6 py-3">Estimation de cout annuel pour 1 personne</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2" class="px-6 py-4 whitespace-nowrap">1x par an</td>
+                            <td id="assurance-evam-payment" rowspan="2" class="px-6 py-4 whitespace-nowrap numeric">120</td>
+                            <td class="px-6 py-4">assurance responsabilité civile (RC)</td>
+                            <td rowspan="2" class="px-6 py-4">2 assurances séparées, mais l'EVAM verse 1 montant pour le paiement des 2.</td>
+                            <td class="px-6 py-4 numeric" id="rc-monthly">6</td>
+                            <td class="px-6 py-4">1x par an</td>
+                            <td class="px-6 py-4 numeric" id="rc-annual">72</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">assurance inciendie (ECA)</td>
+                            <td class="px-6 py-4 numeric" id="eca-monthly">2</td>
+                            <td class="px-6 py-4">1x par an</td>
+                            <td class="px-6 py-4 numeric" id="eca-annual">24</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">1x par mois</td>
+                            <td class="px-6 py-4 numeric" id="loyer-evam-payment"></td>
+                            <td class="px-6 py-4">loyer</td>
+                            <td class="px-6 py-4" id="loyer-remarque">Ce montant est une limite maximale qui dépend des facteurs que vous avez sélectionnés.</td>
+                            <td class="px-6 py-4 numeric" id="loyer-monthly"></td>
+                            <td class="px-6 py-4">1x par mois</td>
+                            <td class="px-6 py-4 numeric" id="loyer-annual"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">1x par an</td>
+                            <td class="px-6 py-4 numeric" id="cautionnement-evam-payment"></td>
+                            <td class="px-6 py-4">société de cautionnement (assurance comme substitut au dépot de garantie pour le loyer)</td>
+                            <td class="px-6 py-4">L'EVAM rembourse le montant que vous versez à la société de cautionnement.</td>
+                            <td class="px-6 py-4 numeric" id="cautionnement-monthly">120</td>
+                            <td class="px-6 py-4">1x par an</td>
+                            <td class="px-6 py-4 numeric" id="cautionnement-annual">120</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="px-6 py-4 whitespace-nowrap">1x par mois</td>
+                            <td id="charges-electricite-evam-payment" rowspan="2" class="px-6 py-4 whitespace-nowrap numeric">100</td>
+                            <td class="px-6 py-4">charges</td>
+                            <td class="px-6 py-4">l'EVAM paie chaque mois un "forfait pour frais" qui doit servir à payer les charges et (une partie de) l'électricité</td>
+                            <td class="px-6 py-4 numeric" id="charges-monthly"></td>
+                            <td class="px-6 py-4">1x par mois</td>
+                            <td class="px-6 py-4 numeric" id="charges-annual"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">électricité</td>
+                            <td class="px-6 py-4">Dans la facture il y a des frais fixes et des frais variable, le prix par personne diminue quand il y a plusieurs personnes dans le même ménage (famille).</td>
+                            <td class="px-6 py-4 numeric" id="electricite-monthly"></td>
+                            <td class="px-6 py-4">1x tous les 3 mois</td>
+                            <td class="px-6 py-4 numeric" id="electricite-annual"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4 numeric">0</td>
+                            <td class="px-6 py-4">Serafe (taxe qui finance radio & télévision d'état)</td>
+                            <td class="px-6 py-4">Facture annuelle de CHF 335 par ménage (famille). Obligatoire même pour les gens qui ne regardent pas les programmes (RTS, SRG, SSR, ...)</td>
+                            <td class="px-6 py-4 numeric" id="sera-monthly"></td>
+                            <td class="px-6 py-4">1x par an</td>
+                            <td class="px-6 py-4 numeric" id="sera-annual"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4 numeric">0</td>
+                            <td class="px-6 py-4">sac poubelle</td>
+                            <td class="px-6 py-4">Dans beaucoup de communes, il y a une taxe sur les sacs poubelle. À Lausanne le sac de 17 litres coute CHF 1.</td>
+                            <td class="px-6 py-4 numeric" id="poubelle-monthly"></td>
+                            <td class="px-6 py-4">1x par mois</td>
+                            <td class="px-6 py-4 numeric" id="poubelle-annual"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4 numeric">0</td>
+                            <td class="px-6 py-4">internet</td>
+                            <td class="px-6 py-4">Optionnel. Selon la situation, internet par le téléphone mobile peut suffire.</td>
+                            <td class="px-6 py-4 numeric" id="internet-monthly"></td>
+                            <td class="px-6 py-4">1x par mois</td>
+                            <td class="px-6 py-4 numeric" id="internet-annual"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-bold bg-gray-700 text-white">
+                            <td class="px-6 py-4">Total</td>
+                            <td class="px-6 py-4 numeric" id="total-evam-payment"></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4 numeric" id="total-mensuel-monthly"></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4 numeric" id="total-annual"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </details>
+
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Où trouver des annonces
+            </summary>
+            <p class="text-lg text-gray-300 leading-relaxed">Il est facile de trouver des annonces en ligne. Voici quelques suggestions :</p>
+            <ul class="list-disc list-outside space-y-2 text-lg text-gray-300 pl-6">
+                <li><a href="https://www.immoscout24.ch/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Immoscout</a></li>
+                <li><a href="https://www.anibis.ch/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Anibis</a></li>
+                <li><a href="https://www.facebook.com/marketplace/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Marketplace</a></li>
+            </ul>
+        </details>
+
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Arnaques
+            </summary>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Il faut être vigilant pour éviter les arnaques. Voici quelques situations qui cachent probablement une arnaque.
+            </p>
+            <ul class="list-disc list-outside space-y-4 text-lg text-gray-300 pl-6">
+                <li>
+                    <strong class="font-semibold text-white">Paiement avant contrat :</strong> La personne de contact demande un paiement pour réserver l'appartement ou pour traiter votre dossier. Ne payez JAMAIS avant de signer un contrat de location.
+                </li>
+                <li>
+                    <strong class="font-semibold text-white">Pas de visite possible :</strong> La personne de contact dit qu'elle ne peut pas vous montrer l'appartement. Par exemple, elle dit qu'elle est à l'étranger. Vous devez toujours visiter un appartement avant de signer un contrat.
+                </li>
+                <li>
+                    <strong class="font-semibold text-white">Date de disponibilité floue :</strong> L'annonce ne mentionne pas la date de disponibilité de l'appartement. Ou la personne de contact dit que cette date peut changer facilement selon vos souhaits.
+                </li>
+                <li>
+                    <strong class="font-semibold text-white">Prix trop bas :</strong> Le prix demandé dans l'annonce est beaucoup plus bas que les prix normaux du marché immobilier.
+                </li>
+            </ul>
+        </details>
+
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Sociétés de cautionnement
+            </summary>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Pour les personnes qui ne peuvent pas payer une garantie de loyer, il existe une alternative qui est une assurance locative. Ce service est proposé par ce qui est appelé une société de cautionnement. Cette assurance coûte 5% par année du montant que vous auriez déposé sur le compte bloqué. Il faut ajouter CHF 30 de frais administratifs la première année.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Sur présentation d’une facture, L'EVAM rembourse cette assurance, y compris les frais administratifs. Le remboursement est total si votre loyer ne dépasse pas le montant que l'EVAM prend en charge. Si votre loyer dépasse ce montant, l'EVAM rembourse seulement la partie équivalente au loyer maximum pris en charge par l’EVAM.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Les principales sociétés de cautionnement sont :
+            </p>
+            <ul class="list-disc list-outside space-y-2 text-lg text-gray-300 pl-6">
+                <li><a href="https://www.firstcaution.ch/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Fist Caution</a></li>
+                <li><a href="https://smartcaution.ch/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Smart Caution</a></li>
+                <li><a href="https://www.swisscaution.ch/" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Swiss Caution</a></li>
+            </ul>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Vous pouvez souscrire l'assurance en ligne, généralement en quelques minutes. Le contrat d’assurance ne peut se faire qu’après obtention du contrat de bail, car le prix de l’assurance dépend du montant du loyer.
+            </p>
+        </details>
+        
+        <details class="space-y-6">
+            <summary class="text-3xl font-bold text-white border-b-2 border-blue-200 pb-2">
+                <span class="triangle">&#9656;</span>Dossier
+            </summary>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Pour postuler il vous faut réunir un certain nombre de documents. On appelle cela un dossier de candidature, ou un dossier de postulation. Ce dossier comprend notamment:
+            </p>
+            <ul class="list-disc list-outside space-y-2 text-lg text-gray-300 pl-6">
+                <li>Copie de votre permis de séjour</li>
+                <li><a href="https://evamch-my.sharepoint.com/:b:/g/personal/aai_evam_ch/EQyXpvxV_FBMnrbzxXaGse8BZz-gQnVQyQLIrKBBKu3ybA?e=O3Lmlj" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Formulaire de demande de location</a></li>
+                <li><a href="https://prestations.vd.ch/pub/001362/001364" class="text-blue-400 hover:text-blue-300 no-underline" target="_blank" rel="noopener noreferrer">Extrait du registre des poursuites</a></li>
+                <li>Trois fiches de salaires (pour les personnes qui sont financièrement autonomes de l'EVAM)</li>
+                <li>Le document "normes loyer bail privé" remis par l'EVAM (pour les personnes assistées par l’EVAM)</li>
+                <li>Le dossier du garant (optionnel)</li>
+            </ul>
+        </details>
+
+    </main>
+
+    <script>
+        const loyerBaseLimits = {
+            'autres zones': {
+                '1': 842, '2': 842, '3': 1007, '4': 1007, '5': 1485, '6': 1485, '7+': 1870
+            },
+            'Nyon & Morges': {
+                '1': 936, '2': 936, '3': 1106, '4': 1106, '5': 1607, '6': 1607, '7+': 2019
+            },
+            'Aigle & Broye': {
+                '1': 787, '2': 787, '3': 930, '4': 930, '5': 1348, '6': 1348, '7+': 1678
+            }
+        };
+
+        // DOM elements
+        const numPeopleInput = document.getElementById('num-people');
+        const geographicZoneSelect = document.getElementById('geographic-zone');
+        const colocationSelect = document.getElementById('colocation');
+        const ageRangeSelect = document.getElementById('age-range');
+
+        const loyerEvamPaymentCell = document.getElementById('loyer-evam-payment');
+        const loyerMonthlyCell = document.getElementById('loyer-monthly');
+        const loyerAnnualCell = document.getElementById('loyer-annual');
+        const cautionnementEvamPaymentCell = document.getElementById('cautionnement-evam-payment');
+        const chargesElectriciteEvamPaymentCell = document.getElementById('charges-electricite-evam-payment');
+        const chargesMonthlyCell = document.getElementById('charges-monthly');
+        const chargesAnnualCell = document.getElementById('charges-annual');
+        const electriciteMonthlyCell = document.getElementById('electricite-monthly');
+        const electriciteAnnualCell = document.getElementById('electricite-annual');
+        const internetMonthlyCell = document.getElementById('internet-monthly');
+        const internetAnnualCell = document.getElementById('internet-annual');
+        const assuranceEvamPaymentCell = document.getElementById('assurance-evam-payment');
+        const loyerRemarqueCell = document.getElementById('loyer-remarque');
+        const poubelleMonthlyCell = document.getElementById('poubelle-monthly');
+        const poubelleAnnualCell = document.getElementById('poubelle-annual');
+        const serafeMonthlyCell = document.getElementById('sera-monthly');
+        const serafeAnnualCell = document.getElementById('sera-annual');
+
+        // Total cells
+        const totalEvamPaymentCell = document.getElementById('total-evam-payment');
+        const totalMensuelMonthlyCell = document.getElementById('total-mensuel-monthly');
+        const totalAnnualCell = document.getElementById('total-annual');
+
+        function updateTable() {
+            // Get selected values
+            const numPeople = parseInt(numPeopleInput.value) || 1;
+            const geographicZone = geographicZoneSelect.value;
+            const colocation = colocationSelect.value;
+            const ageRange = ageRangeSelect.value;
+
+            // Update assurance payment based on number of people
+            if (numPeople >= 2) {
+                assuranceEvamPaymentCell.textContent = '250';
+            } else {
+                assuranceEvamPaymentCell.textContent = '120';
+            }
+
+            // Calculate the new rent based on the selected criteria
+            let rent = 0;
+            const isScenario1 = numPeople === 1 && ageRange === '25-';
+            const isScenario2 = numPeople === 1 && ageRange === '26+' && colocation === 'oui';
+
+            if (isScenario1 || isScenario2) {
+                switch (geographicZone) {
+                    case 'Nyon & Morges':
+                        rent = 600;
+                        break;
+                    case 'autres zones':
+                        rent = 570;
+                        break;
+                    case 'Aigle & Broye':
+                        rent = 490;
+                        break;
+                }
+            } else {
+                // Existing logic
+                if (numPeople >= 7) {
+                    rent = loyerBaseLimits[geographicZone]['7+'];
+                } else if (numPeople >= 5) {
+                    rent = loyerBaseLimits[geographicZone]['5'];
+                } else if (numPeople >= 3) {
+                    rent = loyerBaseLimits[geographicZone]['3'];
+                } else { // Covers 1 and 2
+                    rent = loyerBaseLimits[geographicZone]['1'];
+                }
+            }
+            
+            // Update the rent-related cells
+            loyerEvamPaymentCell.textContent = rent;
+            loyerMonthlyCell.textContent = rent;
+            loyerAnnualCell.textContent = rent * 12;
+
+            // New: Update the cautionnement payment dynamically
+            const cautionnementPayment = Math.round(rent * 3 / 20);
+            cautionnementEvamPaymentCell.textContent = cautionnementPayment;
+
+            // New: Update the charges/electricity payment dynamically
+            let chargesElectricitePayment;
+            if (ageRange === '25-' || colocation === 'oui') {
+                chargesElectricitePayment = 80;
+            } else {
+                if (numPeople >= 7) {
+                    chargesElectricitePayment = 270;
+                } else if (numPeople >= 5) {
+                    chargesElectricitePayment = 220;
+                } else if (numPeople >= 3) {
+                    chargesElectricitePayment = 160;
+                } else { // This covers 2 people
+                    chargesElectricitePayment = 100;
+                }
+            }
+            chargesElectriciteEvamPaymentCell.textContent = chargesElectricitePayment;
+            
+            // Update other costs based on the number of people (using simple linear logic for demonstration)
+            const chargesMonthlyValues = [80, 95, 110, 130, 155, 180, 205, 230];
+            const chargesMonthly = chargesMonthlyValues[numPeople - 1] || 0;
+            chargesMonthlyCell.textContent = chargesMonthly;
+            chargesAnnualCell.textContent = chargesMonthly * 12;
+
+            const electriciteMonthlyValues = [40, 60, 75, 90, 100, 110, 120, 130];
+            const electriciteMonthly = electriciteMonthlyValues[numPeople - 1] || 0;
+            electriciteMonthlyCell.textContent = electriciteMonthly;
+            electriciteAnnualCell.textContent = electriciteMonthly * 4;
+
+            const poubelleMonthlyValues = [5, 9, 13, 16, 19, 22, 25, 28];
+            const poubelleMonthly = poubelleMonthlyValues[numPeople - 1] || 0;
+            poubelleMonthlyCell.textContent = poubelleMonthly;
+            poubelleAnnualCell.textContent = poubelleMonthly * 12;
+            
+            // New logic for Serafe and internet based on colocation
+            let serafeMonthly;
+            let internetMonthly;
+
+            if (colocation === 'oui') {
+                serafeMonthly = 14;
+                internetMonthly = 25;
+            } else {
+                serafeMonthly = 28;
+                if (numPeople <= 2) {
+                    internetMonthly = 40;
+                } else if (numPeople <= 4) {
+                    internetMonthly = 60;
+                } else {
+                    internetMonthly = 80;
+                }
+            }
+            internetMonthlyCell.textContent = internetMonthly;
+            internetAnnualCell.textContent = internetMonthly * 12;
+            serafeMonthlyCell.textContent = serafeMonthly;
+            serafeAnnualCell.textContent = serafeMonthly * 12;
+
+            // Update "rc-annual" (col7 row1) as requested
+            document.getElementById('rc-annual').textContent = numPeople === 1 ? 72 : 108;
+            
+            // Calculate and update totals
+            const totalEvam =
+                parseInt(assuranceEvamPaymentCell.textContent) +
+                parseInt(loyerEvamPaymentCell.textContent) +
+                parseInt(cautionnementEvamPaymentCell.textContent) +
+                parseInt(chargesElectriciteEvamPaymentCell.textContent);
+            
+            const totalMensuel = 
+                parseInt(document.getElementById('rc-monthly').textContent) +
+                parseInt(document.getElementById('eca-monthly').textContent) +
+                parseInt(document.getElementById('loyer-monthly').textContent) +
+                parseInt(document.getElementById('cautionnement-monthly').textContent) +
+                parseInt(document.getElementById('charges-monthly').textContent) +
+                parseInt(document.getElementById('electricite-monthly').textContent) +
+                parseInt(document.getElementById('sera-monthly').textContent) +
+                parseInt(document.getElementById('poubelle-monthly').textContent) +
+                parseInt(document.getElementById('internet-monthly').textContent);
+            
+            const totalAnnual = 
+                parseInt(document.getElementById('rc-annual').textContent) +
+                parseInt(document.getElementById('eca-annual').textContent) +
+                parseInt(document.getElementById('loyer-annual').textContent) +
+                parseInt(document.getElementById('cautionnement-annual').textContent) +
+                parseInt(document.getElementById('charges-annual').textContent) +
+                parseInt(document.getElementById('electricite-annual').textContent) +
+                parseInt(document.getElementById('sera-annual').textContent) +
+                parseInt(document.getElementById('poubelle-annual').textContent) +
+                parseInt(document.getElementById('internet-annual').textContent);
+            
+            totalEvamPaymentCell.textContent = totalEvam;
+            totalMensuelMonthlyCell.textContent = totalMensuel;
+            totalAnnualCell.textContent = totalAnnual;
+        }
+
+        // Add event listener to lock "Nombre de personnes" to 1 if "Colocation" is "Oui"
+        colocationSelect.addEventListener('change', () => {
+            if (colocationSelect.value === 'oui') {
+                numPeopleInput.value = '1';
+                numPeopleInput.disabled = true;
+            } else {
+                numPeopleInput.disabled = false;
+            }
+            updateTable(); // Recalculate based on the new state
+        });
+
+        // Add event listeners to other dynamic inputs
+        numPeopleInput.addEventListener('input', updateTable);
+        geographicZoneSelect.addEventListener('change', updateTable);
+        ageRangeSelect.addEventListener('change', updateTable);
+
+        // Initial update to populate the table on page load
+        updateTable();
+    </script>
+</body>
+</html>
