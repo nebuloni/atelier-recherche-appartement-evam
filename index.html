@@ -199,7 +199,6 @@
                             <th scope="col" class="px-6 py-3">Remarque</th>
                             <th scope="col" class="px-6 py-3">Estimation de cout mensuel</th>
                             <th scope="col" class="px-6 py-3">Fréquence de la facture/dépense</th>
-                            <th scope="col" class="px-6 py-3">Estimation de cout annuel pour 1 personne</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -210,13 +209,11 @@
                             <td rowspan="2" class="px-6 py-4">2 assurances séparées, mais l'EVAM verse 1 montant pour le paiement des 2.</td>
                             <td class="px-6 py-4 numeric" id="rc-monthly">6</td>
                             <td class="px-6 py-4">1x par an</td>
-                            <td class="px-6 py-4 numeric" id="rc-annual">72</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4">assurance inciendie (ECA)</td>
                             <td class="px-6 py-4 numeric" id="eca-monthly">2</td>
                             <td class="px-6 py-4">1x par an</td>
-                            <td class="px-6 py-4 numeric" id="eca-annual">24</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4">1x par mois</td>
@@ -225,7 +222,6 @@
                             <td class="px-6 py-4" id="loyer-remarque">Ce montant est une limite maximale qui dépend des facteurs que vous avez sélectionnés.</td>
                             <td class="px-6 py-4 numeric" id="loyer-monthly"></td>
                             <td class="px-6 py-4">1x par mois</td>
-                            <td class="px-6 py-4 numeric" id="loyer-annual"></td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4">1x par an</td>
@@ -234,7 +230,6 @@
                             <td class="px-6 py-4">L'EVAM rembourse le montant que vous versez à la société de cautionnement.</td>
                             <td class="px-6 py-4 numeric" id="cautionnement-monthly">120</td>
                             <td class="px-6 py-4">1x par an</td>
-                            <td class="px-6 py-4 numeric" id="cautionnement-annual">120</td>
                         </tr>
                         <tr>
                             <td rowspan="2" class="px-6 py-4 whitespace-nowrap">1x par mois</td>
@@ -243,14 +238,12 @@
                             <td class="px-6 py-4">l'EVAM paie chaque mois un "forfait pour frais" qui doit servir à payer les charges et (une partie de) l'électricité</td>
                             <td class="px-6 py-4 numeric" id="charges-monthly"></td>
                             <td class="px-6 py-4">1x par mois</td>
-                            <td class="px-6 py-4 numeric" id="charges-annual"></td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4">électricité</td>
                             <td class="px-6 py-4">Dans la facture il y a des frais fixes et des frais variable, le prix par personne diminue quand il y a plusieurs personnes dans le même ménage (famille).</td>
                             <td class="px-6 py-4 numeric" id="electricite-monthly"></td>
                             <td class="px-6 py-4">1x tous les 3 mois</td>
-                            <td class="px-6 py-4 numeric" id="electricite-annual"></td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4"></td>
@@ -259,7 +252,6 @@
                             <td class="px-6 py-4">Facture annuelle de CHF 335 par ménage (famille). Obligatoire même pour les gens qui ne regardent pas les programmes (RTS, SRG, SSR, ...)</td>
                             <td class="px-6 py-4 numeric" id="sera-monthly"></td>
                             <td class="px-6 py-4">1x par an</td>
-                            <td class="px-6 py-4 numeric" id="sera-annual"></td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4"></td>
@@ -268,7 +260,6 @@
                             <td class="px-6 py-4">Dans beaucoup de communes, il y a une taxe sur les sacs poubelle. À Lausanne le sac de 17 litres coute CHF 1.</td>
                             <td class="px-6 py-4 numeric" id="poubelle-monthly"></td>
                             <td class="px-6 py-4">1x par mois</td>
-                            <td class="px-6 py-4 numeric" id="poubelle-annual"></td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4"></td>
@@ -277,7 +268,6 @@
                             <td class="px-6 py-4">Optionnel. Selon la situation, internet par le téléphone mobile peut suffire.</td>
                             <td class="px-6 py-4 numeric" id="internet-monthly"></td>
                             <td class="px-6 py-4">1x par mois</td>
-                            <td class="px-6 py-4 numeric" id="internet-annual"></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -287,7 +277,6 @@
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4 numeric" id="total-mensuel-monthly"></td>
-                            <td class="px-6 py-4"></td>
                             <td class="px-6 py-4 numeric" id="total-annual"></td>
                         </tr>
                     </tfoot>
@@ -393,21 +382,15 @@
 
         const loyerEvamPaymentCell = document.getElementById('loyer-evam-payment');
         const loyerMonthlyCell = document.getElementById('loyer-monthly');
-        const loyerAnnualCell = document.getElementById('loyer-annual');
         const cautionnementEvamPaymentCell = document.getElementById('cautionnement-evam-payment');
         const chargesElectriciteEvamPaymentCell = document.getElementById('charges-electricite-evam-payment');
         const chargesMonthlyCell = document.getElementById('charges-monthly');
-        const chargesAnnualCell = document.getElementById('charges-annual');
         const electriciteMonthlyCell = document.getElementById('electricite-monthly');
-        const electriciteAnnualCell = document.getElementById('electricite-annual');
         const internetMonthlyCell = document.getElementById('internet-monthly');
-        const internetAnnualCell = document.getElementById('internet-annual');
         const assuranceEvamPaymentCell = document.getElementById('assurance-evam-payment');
         const loyerRemarqueCell = document.getElementById('loyer-remarque');
         const poubelleMonthlyCell = document.getElementById('poubelle-monthly');
-        const poubelleAnnualCell = document.getElementById('poubelle-annual');
         const serafeMonthlyCell = document.getElementById('sera-monthly');
-        const serafeAnnualCell = document.getElementById('sera-annual');
 
         // Total cells
         const totalEvamPaymentCell = document.getElementById('total-evam-payment');
@@ -461,7 +444,6 @@
             // Update the rent-related cells
             loyerEvamPaymentCell.textContent = rent;
             loyerMonthlyCell.textContent = rent;
-            loyerAnnualCell.textContent = rent * 12;
 
             // New: Update the cautionnement payment dynamically
             const cautionnementPayment = Math.round(rent * 3 / 20);
@@ -488,17 +470,14 @@
             const chargesMonthlyValues = [80, 95, 110, 130, 155, 180, 205, 230];
             const chargesMonthly = chargesMonthlyValues[numPeople - 1] || 0;
             chargesMonthlyCell.textContent = chargesMonthly;
-            chargesAnnualCell.textContent = chargesMonthly * 12;
 
             const electriciteMonthlyValues = [40, 60, 75, 90, 100, 110, 120, 130];
             const electriciteMonthly = electriciteMonthlyValues[numPeople - 1] || 0;
             electriciteMonthlyCell.textContent = electriciteMonthly;
-            electriciteAnnualCell.textContent = electriciteMonthly * 4;
 
             const poubelleMonthlyValues = [5, 9, 13, 16, 19, 22, 25, 28];
             const poubelleMonthly = poubelleMonthlyValues[numPeople - 1] || 0;
             poubelleMonthlyCell.textContent = poubelleMonthly;
-            poubelleAnnualCell.textContent = poubelleMonthly * 12;
             
             // New logic for Serafe and internet based on colocation
             let serafeMonthly;
@@ -518,12 +497,12 @@
                 }
             }
             internetMonthlyCell.textContent = internetMonthly;
-            internetAnnualCell.textContent = internetMonthly * 12;
             serafeMonthlyCell.textContent = serafeMonthly;
-            serafeAnnualCell.textContent = serafeMonthly * 12;
 
-            // Update "rc-annual" (col7 row1) as requested
-            document.getElementById('rc-annual').textContent = numPeople === 1 ? 72 : 108;
+            // Update "rc-monthly" as requested
+            document.getElementById('rc-monthly').textContent = numPeople === 1 ? '6' : '9';
+            // Update "eca-monthly" as requested
+            document.getElementById('eca-monthly').textContent = '2';
             
             // Calculate and update totals
             const totalEvam =
@@ -543,20 +522,11 @@
                 parseInt(document.getElementById('poubelle-monthly').textContent) +
                 parseInt(document.getElementById('internet-monthly').textContent);
             
-            const totalAnnual = 
-                parseInt(document.getElementById('rc-annual').textContent) +
-                parseInt(document.getElementById('eca-annual').textContent) +
-                parseInt(document.getElementById('loyer-annual').textContent) +
-                parseInt(document.getElementById('cautionnement-annual').textContent) +
-                parseInt(document.getElementById('charges-annual').textContent) +
-                parseInt(document.getElementById('electricite-annual').textContent) +
-                parseInt(document.getElementById('sera-annual').textContent) +
-                parseInt(document.getElementById('poubelle-annual').textContent) +
-                parseInt(document.getElementById('internet-annual').textContent);
-            
+            const totalAnnual = totalMensuel * 12;
+
             totalEvamPaymentCell.textContent = totalEvam;
             totalMensuelMonthlyCell.textContent = totalMensuel;
-            totalAnnualCell.textContent = totalAnnual;
+            totalAnnualCell.textContent = '';
         }
 
         // Add event listener to lock "Nombre de personnes" to 1 if "Colocation" is "Oui"
