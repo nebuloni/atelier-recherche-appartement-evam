@@ -26,17 +26,17 @@
     .wider-cols table {
         border-collapse: collapse;
     }
-    /* Set col width to a max not a min */
+    /* Set width for columns 5 and 7 to correspond to column 1 */
     .wider-cols th:nth-child(5),
     .wider-cols td:nth-child(5),
     .wider-cols th:nth-child(7),
     .wider-cols td:nth-child(7) {
-        max-width: 40px;
+        min-width: 150px;
     }
-    /* set col with to a max */
+    /* Narrow the 6th column by 30% */
     .wider-cols th:nth-child(6),
     .wider-cols td:nth-child(6) {
-        max-width: 70px;
+        min-width: 70px;
     }
     /* Right-align numeric columns for unit alignment */
     .wider-cols .numeric {
