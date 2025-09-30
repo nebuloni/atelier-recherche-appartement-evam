@@ -194,7 +194,7 @@
                     <thead class="text-xs text-gray-300 uppercase bg-gray-800">
                         <tr class="text-center">
                             <th scope="col" class="px-6 py-3">Fréquence du paiement que vous recevez de l'EVAM</th>
-                            <th scope="col" class="px-6 py-3">Montant que vous recevez de l'EVAM</th>
+                            <th scope="col" class="px-6 py-3">Montant mensuel moyen que vous recevez de l'EVAM</th>
                             <th scope="col" class="px-6 py-3">Motif</th>
                             <th scope="col" class="px-6 py-3">Remarque</th>
                             <th scope="col" class="px-6 py-3">Estimation de cout mensuel</th>
@@ -206,7 +206,7 @@
                             <td rowspan="2" class="px-6 py-4 whitespace-nowrap">1x par an</td>
                             <td id="assurance-evam-payment" rowspan="2" class="px-6 py-4 whitespace-nowrap numeric">120</td>
                             <td class="px-6 py-4">assurance responsabilité civile (RC)</td>
-                            <td rowspan="2" class="px-6 py-4">2 assurances séparées, mais l'EVAM verse 1 montant pour le paiement des 2.</td>
+                            <td rowspan="2" class="px-6 py-4">2 assurances séparées, mais l'EVAM verse 1 montant pour le paiement des 2. Attention, l'EVAM verse l'argent 1x/an, mais la colonne "estimation de cout mensuel" et les totaux en bas de tableau calculent le cout mensuel.</td>
                             <td class="px-6 py-4 numeric" id="rc-monthly">6</td>
                             <td class="px-6 py-4">1x par an</td>
                         </tr>
@@ -227,8 +227,8 @@
                             <td class="px-6 py-4">1x par an</td>
                             <td class="px-6 py-4 numeric" id="cautionnement-evam-payment"></td>
                             <td class="px-6 py-4">société de cautionnement (assurance comme substitut au dépot de garantie pour le loyer)</td>
-                            <td class="px-6 py-4">L'EVAM rembourse le montant que vous versez à la société de cautionnement.</td>
-                            <td class="px-6 py-4 numeric" id="cautionnement-monthly">120</td>
+                            <td class="px-6 py-4">L'EVAM rembourse le montant que vous versez à la société de cautionnement. Attention, l'EVAM verse l'argent 1x/an, mais la colonne "estimation de cout mensuel" et les totaux en bas de tableau calculent le cout mensuel.</td>
+                            <td class="px-6 py-4 numeric" id="cautionnement-monthly"></td>
                             <td class="px-6 py-4">1x par an</td>
                         </tr>
                         <tr>
@@ -383,6 +383,7 @@
         const loyerEvamPaymentCell = document.getElementById('loyer-evam-payment');
         const loyerMonthlyCell = document.getElementById('loyer-monthly');
         const cautionnementEvamPaymentCell = document.getElementById('cautionnement-evam-payment');
+        const cautionnementMonthlyCell = document.getElementById('cautionnement-monthly');
         const chargesElectriciteEvamPaymentCell = document.getElementById('charges-electricite-evam-payment');
         const chargesMonthlyCell = document.getElementById('charges-monthly');
         const electriciteMonthlyCell = document.getElementById('electricite-monthly');
@@ -445,11 +446,15 @@
             loyerEvamPaymentCell.textContent = rent;
             loyerMonthlyCell.textContent = rent;
 
-            // New: Update the cautionnement payment dynamically
+            // Update the cautionnement payment dynamically
             const cautionnementPayment = Math.round(rent * 3 / 20);
             cautionnementEvamPaymentCell.textContent = cautionnementPayment;
 
-            // New: Update the charges/electricity payment dynamically
+            // Update the cautionnement monthly cell by dividing cautionnementPayment by 12, rounded to nearest integer
+            const cautionnementMonthly = Math.round(cautionnementPayment / 12);
+            cautionnementMonthlyCell.textContent = cautionnementMonthly;
+
+            // Update the charges/electricity payment dynamically
             let chargesElectricitePayment;
             if (ageRange === '25-' || colocation === 'oui') {
                 chargesElectricitePayment = 80;
@@ -506,10 +511,13 @@
             
             // Calculate and update totals
             const totalEvam =
-                parseInt(assuranceEvamPaymentCell.textContent) +
+                Math.round(parseInt(assuranceEvamPaymentCell.textContent) / 12) +
                 parseInt(loyerEvamPaymentCell.textContent) +
-                parseInt(cautionnementEvamPaymentCell.textContent) +
-                parseInt(chargesElectriciteEvamPaymentCell.textContent);
+                Math.round(parseInt(cautionnementEvamPaymentCell.textContent) / 12) +
+                parseInt(chargesElectriciteEvamPaymentCell.textContent) +
+                0 + // Serafe
+                0 + // Sac poubelle
+                0;  // Internet
             
             const totalMensuel = 
                 parseInt(document.getElementById('rc-monthly').textContent) +
